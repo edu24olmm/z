@@ -1,0 +1,132 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>待办事项</title>
+<!-- #include file="include.html"-->
+
+
+
+<link rel="stylesheet" type="text/css" href="../../css/easyui/icon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/easyui/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="../../css/tencr.css" />
+<link rel="stylesheet" type="text/css" href="../../css/main.css" />
+<script type="text/javascript" src="../../js/jquery.min.js?versionnumber=20140609"></script>
+<script type="text/javascript" src="../../js/jquery.easyui.min.js?versionnumber=20140609"></script>
+<script type="text/javascript" src="../../js/easyui-lang-zh_CN.js?versionnumber=20140609"></script>
+<script type="text/javascript" src="../../js/Constant.js?versionnumber=20140609"></script>
+
+
+
+<script type="text/javascript" src="../../js/pages/toDo.js?versionnumber=20140609"></script>
+<style type="text/css">
+	.tdh{
+		height : 30px;
+	}
+	.td1{
+		width : 150px;
+	}
+	.td2{
+		width : 350px;
+	}
+	.td2_2{
+		width : 250px;
+	}
+	
+	.div_tabs{
+		padding: 10px 30px;
+		width: 100%;
+	}
+	.tables{
+		border : 0px;
+		bordercolor : #9899D3;
+		cellspacing : 0px;
+		border-collapse :　collapse;
+	}
+	fieldset{k
+		padding: 0 0 0 10px;
+	}
+	legend : {
+		font-weight: bolder;
+		color:lightblue;
+	}
+	input : {
+		height : 20px;
+	}
+</style>
+</head>
+<!-- 
+<% List<Map<String,Object>> list =  (List<Map<String,Object>>)request.getAttribute("datas"); 
+	List<TMerchantVO> merVoList = (List<TMerchantVO>)request.getAttribute("merVoList");
+%>
+ -->
+<body>	
+	<div class="easyui-panel" style="height:490px;">
+
+		<fieldset style="height: 60px;">
+		    <legend style="font-weight: bolder;color:lightblue">待办事项</legend>
+			<c:if test="${show == 0 }">
+				<span style="display: inline-block;width: 200px;">待审核商户(<a style="color: blue;" href="javascript:void(0)" onclick="window.parent.open1('商户审核','/toMerchantCheck.html')">1</a>)</span>
+				<span style="display: inline-block;width: 200px;">待审核调单(<a style="color: blue;" href="javascript:void(0)" onclick="window.parent.open1('调单审核','/toSalesSlipCheck.html')">1</a>)</span>
+				<span style="display: inline-block;width: 200px;">待完成调单(<a style="color: blue;" href="javascript:void(0)" onclick="window.parent.open1('调单完成','/toSalesSlipSucc.html')">1</a>)</span>
+			</c:if>
+			<c:if test="${show == 1}">
+				<span style="display: inline-block;width: 200px;">待审核商户(<a style="color: blue;" href="javascript:void(0)" onclick="window.parent.open1('商户审核','/toMerchantCheck.html')">1</a>)</span>
+				<span style="display: inline-block;width: 200px;">待处理调单(<a style="color: blue;" href="javascript:void(0)" onclick="window.parent.open1('调单处理','/toSalesSlipDispose.html')">1</a>)</span>
+			</c:if>
+			<c:if test="${show == 2}">
+				<span style="display: inline-block;width: 200px;">待处理调单(<a style="color: blue;" href="javascript:void(0)" onclick="window.parent.open1('调单处理','/toSalesSlipDispose.html')">1</a>)</span>
+			</c:if>
+		</fieldset>
+
+		<fieldset>
+		    <legend style="font-weight: bolder;color:lightblue">通知/公告</legend>
+			<table border="1" cellpadding="0" cellspacing="0" style="border-color: #ccc;width: 99%;text-align: center;">
+			<tr class="tdh" style="background-color:#e6e6e6;">
+				<td style="width: 50px;border-color: #ccc;">序号</td>
+				<td style="width: 150px;border-color: #ccc;">发布时间</td>
+				<td style="width: 150px;border-color: #ccc;">标题</td>
+				<td style="border-color: #ccc;">内容</td>
+			</tr>
+			<!--  
+			<%
+				if(list != null && list.size() > 0){
+				for(Map<String,Object> map : list){
+					%>
+					<tr class="tdh">
+						<td style="width: 50px;border-color: #ccc;font-size: 12px;"><%=map.get("R") %></td>
+						<td style="width: 50px;border-color: #ccc;font-size: 12px;"><%=map.get("PUBLISHTIME") %></td>
+						<td style="width: 50px;border-color: #ccc;font-size: 12px;"><%=map.get("TITLE") %></td>
+						<td style="text-align: left;padding-left:10px;border-color: #ccc;font-size: 12px;"><%=map.get("CONTENT") %></td>
+					</tr>
+			<%
+				}}
+			%>
+			-->
+			</table>
+		</fieldset>
+		<fieldset>
+		    <legend style="font-weight: bolder;color:red">SIM即将过期</legend>
+		    <table border="1" cellpadding="0" cellspacing="0" style="border-color: #ccc;width: 99%;text-align: center;">
+		    	<tr class="tdh" style="background-color:#e6e6e6;">
+		    		<td>商户号</td>
+		    		<td>终端号&开卡日期</td>
+		    	</tr>
+		    	<!--  
+		    	<%
+		    	if(merVoList!=null && merVoList.size()>0){
+		    		for(TMerchantVO vo : merVoList){
+		    			%>
+		    			<tr class="tdh">
+		    				<td style="width: 6px;border-color: #ccc;"><%=vo.getMerInfoId() %></td>
+		    				<td style="width: 350px;border-color: #ccc;color: red"><%=vo.getPosId() %></td>
+		    			</tr>
+		    			<%
+		    		}
+		    	}
+		    	%>
+		    	-->
+		    </table>
+		 </fieldset>
+	</div>
+</body>
+</html>

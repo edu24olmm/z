@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<properties resource="jdbc.properties" />
+
+    <settings useStatementNamespaces="true" cacheModelsEnabled="true"/>
+
+	<transactionManager type="JDBC">
+		<dataSource type="DBCP">
+			<property name="JDBC.Driver" value="${driver}" />
+			<property name="JDBC.ConnectionURL" value="${url}" />
+			<property name="JDBC.Username" value="${username}" />
+			<property name="JDBC.Password" value="${password}" />
+			<property name="Pool.MaximumActiveConnections" value="50" /> <!-- 连接池维持的最大连接数 -->
+			<property name="Pool.MaximumIdleConnections" value="10" /> <!-- 连接池允许挂起的最大连接数 -->
+			<property name="Pool.MaximumWait" value="60000" /> <!-- 线程允许等待的最大时间 -->
+			<property name="Pool.ValidationQuery" value="select count(1) from task" /> <!-- 检测SQL语句 -->
+			<property name="Pool.LogAbandoned" value="true" /> <!-- 是否在自动回收超时连接的时候打印连接的超时错误 -->
+			<property name="Pool.RemoveAbandoned" value="true" /> <!-- 是否自动回收超时连接 -->
+			<property name="Pool.RemoveAbandonedTimeout" value="60" /> <!-- 超时时间(以秒数为单位) -->
+		</dataSource>
+	</transactionManager>
+		<sqlMap resource="queryFiles.xml"/>
+		
+</sqlMapConfig>

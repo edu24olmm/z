@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="queryFiles">
+
+
+	<update id="updateKeep" parameterClass="com.tiancheng.mobilefront.bean.BaseBean">
+		update keep set KeepDays = #keepDays# where id_ = #id#
+	</update>
+	
+	<update id="updateKeepPhone" parameterClass="com.tiancheng.mobilefront.bean.BaseBean">
+		update keep set registerPhone = #registerId# where imei = #keepDays#
+	</update>
+	
+	<delete id="deleteTask" parameterClass="String">
+		delete from task where id_=#id#
+	</delete>
+	
+	<delete id="deleteKeep" parameterClass="String">
+		delete from keep where taskId=#id#
+	</delete>
+	
+	<select id="getTaskByLimit" parameterClass="com.tiancheng.mobilefront.bean.Pages" resultClass="com.tiancheng.mobilefront.bean.TaskInfo">
+		select id_,taskName,topOfEveryDay from task LIMIT #start#,#end#
+	</select>
+	
+	<select id="getKeep" resultClass="string" parameterClass="com.tiancheng.mobilefront.bean.BaseBean">
+		select count(1) from keep where taskId=#taskId# and Days=#day#
+	</select>
+	
+	<update id="updateHistoryStr" parameterClass="com.tiancheng.mobilefront.bean.TaskInfo">
+		update task set historyStr =#historyStr# where id_ =#id_# 
+	</update>
+	
+	<update id="updateCheckFinish" parameterClass="com.tiancheng.mobilefront.bean.CheckFinish" >
+		update checkFinish set keepSum=#keepSum#,todaySum=#todaySum#,lastCountTime=#lastCountTime#,meanCount=#meanCount#,finishHour=#finishHour# where taskId=#taskId#
+	</update>
+	
+	<select id="queryCheckFinish" resultClass="com.tiancheng.mobilefront.bean.CheckFinish" parameterClass="int">
+		select taskId,keepSum,todaySum,lastCountTime,meanCount,finishHour from checkFinish where taskId = #taskId#
+	</select>
+	
+	<select id="executeKeep" resultClass="string" parameterClass="com.tiancheng.mobilefront.bean.BaseBean">
+		select count(*) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id# and k.KeepDays=#keepDays#
+	</select>
+	
+	<select id="getHistoryStr" parameterClass="int" resultClass="string">
+		select historyStr from task where id_=#id_#
+	</select>
+	
+	<select id="queryNeedRegisters" parameterClass="com.tiancheng.mobilefront.bean.BaseBean" resultClass="string">
+		select count(*)*t.registerRate/100 from keep k,task t where t.id_=k.taskId and k.Days= #day# and t.ID_=#taskId#
+	</select>
+	
+	<select id="getRegisterRate" parameterClass="string" resultClass="string">
+		select t.registerRate from  task t where t.id_=#id#
+	</select>
+	
+	<select id="queryRegisters" parameterClass="com.tiancheng.mobilefront.bean.BaseBean" resultClass="string">
+		select count(1) from keep k where k.taskId=#taskId# and k.Days= #day# and k.registerPhone!=null
+	</select>
+	
+	<select id="queryAllRegisters" parameterClass="com.tiancheng.mobilefront.bean.BaseBean" resultClass="string">
+		select count(1) from keep k where k.taskId=#taskId# and k.registerPhone!=null
+	</select>
+	
+	<insert id="insertCheckFinish" parameterClass="com.tiancheng.mobilefront.bean.CheckFinish">
+		insert into checkFinish 
+		(taskId,
+		keepSum,
+		todaySum,
+		lastCountTime,
+		meanCount,
+		finishHour)
+		  values 
+		(#taskId#,
+		#keepSum#,
+		#todaySum#,
+		#lastCountTime#,
+		#meanCount#,
+		#finishHour#)
+	</insert>
+	
+	<insert id="addSellement" parameterClass="com.tiancheng.mobilefront.bean.Order">
+		insert into torder (taskName
+		  <isNotEmpty property="beginDate">
+		 	,beginDate
+		 </isNotEmpty>
+		  <isNotEmpty property="endDate">
+		 	,endDate
+		 </isNotEmpty>
+		 <isNotEmpty property="money">
+		 	,money
+		 </isNotEmpty>
+		 <isNotEmpty property="price">
+		 	,price
+		 </isNotEmpty>
+		 <isNotEmpty property="num">
+		 	,num
+		 </isNotEmpty>
+		 <isNotEmpty property="remark">
+		 	,remark
+		 </isNotEmpty>
+		  <isNotEmpty property="registers">
+		 	,registers
+		 </isNotEmpty>
+		  <isNotEmpty property="days">
+		 	,days
+		 </isNotEmpty>
+		  <isNotEmpty property="isSellement">
+		 	,isSellement
+		 </isNotEmpty>
+		  )values(
+			 #taskName#
+		  <isNotEmpty property="beginDate">
+		 	,#beginDate#
+		 </isNotEmpty>
+		  <isNotEmpty property="endDate">
+		 	,#endDate#
+		 </isNotEmpty>
+		  <isNotEmpty property="money">
+		 	,#money#
+		 </isNotEmpty>
+		  <isNotEmpty property="price">
+		 	,#price#
+		 </isNotEmpty>
+		  <isNotEmpty property="num">
+		 	,#num#
+		 </isNotEmpty>
+		  <isNotEmpty property="remark">
+		 	,#remark#
+		 </isNotEmpty>
+		  <isNotEmpty property="registers">
+		 	,#registers#
+		 </isNotEmpty>
+		  <isNotEmpty property="days">
+		 	,#days#
+		 </isNotEmpty>
+		  <isNotEmpty property="isSellement">
+		 	,#isSellement#
+		 </isNotEmpty>
+		 )
+	</insert>
+	
+	<insert id="addTask" parameterClass="com.tiancheng.mobilefront.bean.TaskInfo">
+		insert into task (taskName
+		 <isNotEmpty property="topOfEveryDay">
+		 	,topOfEveryDay
+		 </isNotEmpty>
+		  <isNotEmpty property="registerRate">
+			 ,registerRate
+		 </isNotEmpty>
+		 <isNotEmpty property="keep1">
+			 ,keep1
+		 </isNotEmpty>
+		  <isNotEmpty property="keep2">
+		 	 ,keep2
+		 </isNotEmpty>
+		  <isNotEmpty property="keep3">
+		 	,keep3
+		 </isNotEmpty>
+		  <isNotEmpty property="keep4">
+			 ,keep4
+		 </isNotEmpty>
+		  <isNotEmpty property="keep5">
+		 ,keep5
+		 </isNotEmpty>
+		  <isNotEmpty property="keep6">
+		 ,keep6
+		 </isNotEmpty>
+		  <isNotEmpty property="keep7">
+		 ,keep7
+		 </isNotEmpty>
+		  <isNotEmpty property="keep8">
+		 ,keep8
+		 </isNotEmpty>
+		  <isNotEmpty property="keep9">
+		 ,keep9
+		 </isNotEmpty>
+		  <isNotEmpty property="keep10">
+		 ,keep10
+		 </isNotEmpty>
+		  <isNotEmpty property="keep11">
+		 ,keep11
+		 </isNotEmpty>
+		  <isNotEmpty property="keep12">
+		 ,keep12
+		 </isNotEmpty>
+		  <isNotEmpty property="keep13">
+		 ,keep13
+		 </isNotEmpty>
+		  <isNotEmpty property="keep14">
+		 ,keep14
+		 </isNotEmpty>
+		  <isNotEmpty property="keep15">
+		 ,keep15
+		 </isNotEmpty>
+		  <isNotEmpty property="keep16">
+		 ,keep16
+		 </isNotEmpty>
+		  <isNotEmpty property="keep17">
+		 ,keep17
+		 </isNotEmpty>
+		  <isNotEmpty property="keep18">
+		 ,keep18
+		 </isNotEmpty>
+		  <isNotEmpty property="keep19">
+		 ,keep19
+		 </isNotEmpty>
+		  <isNotEmpty property="keep20">
+		 ,keep20
+		 </isNotEmpty>
+		  <isNotEmpty property="keep21">
+		 ,keep21
+		 </isNotEmpty>
+		  <isNotEmpty property="keep22">
+		 ,keep22
+		 </isNotEmpty>
+		  <isNotEmpty property="keep23">
+		 ,keep23
+		 </isNotEmpty>
+		  <isNotEmpty property="keep24">
+		 ,keep24
+		 </isNotEmpty>
+		  <isNotEmpty property="keep25">
+		 ,keep25
+		 </isNotEmpty>
+		  <isNotEmpty property="keep26">
+		 ,keep26
+		 </isNotEmpty>
+		  <isNotEmpty property="keep27">
+		 ,keep27
+		 </isNotEmpty>
+		  <isNotEmpty property="keep28">
+		 ,keep28
+		 </isNotEmpty>
+		  <isNotEmpty property="keep29">
+		 ,keep29
+		 </isNotEmpty>
+		  <isNotEmpty property="keep30">
+		 ,keep30
+		 </isNotEmpty>
+		  <isNotEmpty property="keep31">
+		 ,keep31
+		 </isNotEmpty>
+		 )values(
+			 #taskName#
+		  <isNotEmpty property="topOfEveryDay">
+		 	,#topOfEveryDay#
+		 </isNotEmpty>
+		  <isNotEmpty property="registerRate">
+			 ,#registerRate#
+		 </isNotEmpty>
+		 <isNotEmpty property="keep1">
+			 ,#keep1#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep2">
+		 	 ,#keep2#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep3">
+		 	,#keep3#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep4">
+			 ,#keep4#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep5">
+		 ,#keep5#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep6">
+		 ,#keep6#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep7">
+		 ,#keep7#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep8">
+		 ,#keep8#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep9">
+		 ,#keep9#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep10">
+		 ,#keep10#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep11">
+		 ,#keep11#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep12">
+		 ,#keep12#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep13">
+		 ,#keep13#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep14">
+		 ,#keep14#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep15">
+		 ,#keep15#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep16">
+		 ,#keep16#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep17">
+		 ,#keep17#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep18">
+		 ,#keep18#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep19">
+		 ,#keep19#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep20">
+		 ,#keep20#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep21">
+		 ,#keep21#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep22">
+		 ,#keep22#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep23">
+		 ,#keep23#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep24">
+		 ,#keep24#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep25">
+		 ,#keep25#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep26">
+		 ,#keep26#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep27">
+		 ,#keep27#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep28">
+		 ,#keep28#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep29">
+		 ,#keep29#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep30">
+		 ,#keep30#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep31">
+		 ,#keep31#
+		 </isNotEmpty>
+
+)
+	</insert>
+	
+	<insert id="insertIntoInfos" parameterClass="com.tiancheng.mobilefront.bean.InfoS">
+		insert into infos(NAME_,SFZ_,YB_,DZ_,EMAIL_,PHONENUM)values(#NAME_#,#SFZ_#,#YB_#,#ADDRES_#,#EMAIL_#,#PHONENUM#)		
+	</insert>
+	
+	<update id="updateTaskPdmId" parameterClass="com.tiancheng.mobilefront.bean.TaskInfo">
+		 update task set pdmId=pdmId+1 where id_=#id_#
+	</update>
+	
+	<update id="updateTask" parameterClass="com.tiancheng.mobilefront.bean.TaskInfo">
+		 update task set taskName=#taskName#
+		 <isNotEmpty property="topOfEveryDay">
+		 	,topOfEveryDay=#topOfEveryDay#
+		 </isNotEmpty>
+		 <isNotEmpty property="registerRate">
+			 ,registerRate=#registerRate#
+		 </isNotEmpty>
+		 <isNotEmpty property="keep1">
+			 ,keep1=#keep1#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep2">
+		 	 ,keep2=#keep2#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep3">
+		 	,keep3=#keep3#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep4">
+			 ,keep4=#keep4#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep5">
+		 ,keep5=#keep5#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep6">
+		 ,keep6=#keep6#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep7">
+		 ,keep7=#keep7#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep8">
+		 ,keep8=#keep8#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep9">
+		 ,keep9=#keep9#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep10">
+		 ,keep10=#keep10#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep11">
+		 ,keep11=#keep11#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep12">
+		 ,keep12=#keep12#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep13">
+		 ,keep13=#keep13#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep14">
+		 ,keep14=#keep14#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep15">
+		 ,keep15=#keep15#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep16">
+		 ,keep16=#keep16#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep17">
+		 ,keep17=#keep17#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep18">
+		 ,keep18=#keep18#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep19">
+		 ,keep19=#keep19#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep20">
+		 ,keep20=#keep20#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep21">
+		 ,keep21=#keep21#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep22">
+		 ,keep22=#keep22#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep23">
+		 ,keep23=#keep23#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep24">
+		 ,keep24=#keep24#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep25">
+		 ,keep25=#keep25#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep26">
+		 ,keep26=#keep26#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep27">
+		 ,keep27=#keep27#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep28">
+		 ,keep28=#keep28#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep29">
+		 ,keep29=#keep29#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep30">
+		 ,keep30=#keep30#
+		 </isNotEmpty>
+		  <isNotEmpty property="keep31">
+		 ,keep31=#keep31#
+		 </isNotEmpty>
+		  <isNotEmpty property="price">
+		 ,price=#price#
+		 </isNotEmpty>
+		 where id_=#id_#
+	</update>
+	
+	<select id="isReachTopOfEveryDay" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select t.topOfEveryDay+t.offSetInt-count(1) from task t,keep k  where t.ID_=k.taskId and k.Days= #day# and t.ID_=#taskId#
+	</select>
+	
+	<select id="isReachTopOfEveryDayOfRegist" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+		select ROUND(topOfEveryDay*registerRate/100)-count(1) from task t,keep k where t.id_=k.taskId and t.id_=#taskId# and k.Days= #day# and k.registerPhone!=""
+	</select>
+
+	<update id="updateTaskOffSetAll" parameterClass="int">
+		update  task set offSetInt = round(topOfEveryDay*#number#/100)
+	</update>
+
+	<select id="keepByServerUnExecutekeep1" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep1/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep2" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep2/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep3" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep3/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep4" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep4/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep5" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep5/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep6" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep6/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep7" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep7/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep8" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep8/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep9" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep9/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep10" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep10/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep11" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep11/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep12" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep12/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	
+	<select id="keepByServerUnExecutekeep13" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep13/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep14" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep14/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep15" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep15/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep16" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep16/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep17" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep17/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep18" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep18/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep19" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep19/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep20" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep20/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep21" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep21/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep22" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep22/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep23" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep23/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep24" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep24/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep25" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep25/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep26" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep26/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep27" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep27/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep28" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep28/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep29" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep29/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep30" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep30/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerUnExecutekeep31" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select ROUND(count(1)*t.keep31/100) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id#
+	</select>
+	<select id="keepByServerExecute" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select count(*) from task t,keep k where t.id_=k.taskId and k.Days=#day# and t.id_=#id# and k.KeepDays=#keepDays#
+	</select>
+
+	<select id="saveToServerValidate" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="int">
+			select count(*) from task where id_=#id#
+	</select>
+	
+	<select id="getTaskList" resultClass="com.tiancheng.mobilefront.bean.TaskInfo">
+		select * from task
+	</select>
+	
+	<select id="queryLocationByImei" resultClass="com.tiancheng.mobilefront.bean.Location" parameterClass="com.tiancheng.mobilefront.bean.Location">
+		select * from location where 1=1
+			<isNotEmpty property="imei">
+		 		and imei like concat(concat('%',#imei#),'%')
+		 	</isNotEmpty>
+		 	<isNotEmpty property="phoneType">
+		 		and phoneType like concat(concat('%',#phoneType#),'%')
+		 	</isNotEmpty>
+		 order by time desc LIMIT 1
+	</select>
+	
+	<insert id="saveLocation" parameterClass="com.tiancheng.mobilefront.bean.Location">
+		insert into location (time,provider,altitude,latitude,longitude,speed,action,phoneType,isScreenOn)
+		values
+		(#time#,#provider#,#altitude#,#latitude#,#longitude#,#speed#,#action#,#phoneType#,#isScreenOn#)
+	</insert>
+
+  <insert id="SaveToServer" parameterClass="com.tiancheng.mobilefront.bean.PhoneInfo" >
+    insert into keep(taskId,KeepDays,Days,UseDays,PackageName,IMEI,AndroidID,GsfId,AdId,Mac,SSID,BSSID,Ip,Line1Number,CountryIso,Operator,OperatorName,SimSerialNumber
+    ,SubscriberId,NetWorkType,BOARD,BOOTLOADER,BRAND,CPU_ABI,CPU_ABI2,DEVICE,DISPLAY,FINGERPRINT,HARDWARE,HOST,ID,MANUFACTURER,MODEL,PRODUCT,RADIO,SERIAL,TAGS,TIME,TYPE
+    ,USER,CODENAME,INCREMENTAL,RELEASE_,SDK_INT,SDK,Height,Width,Density,ScaleDensity,DensityDPI,Xdpi,Ydpi,UA,BaseBand,OSVersion,PROCVersion,CPUINFO,Lat,Lon,Alt,Cid,Lac,registerPhone)
+ 	 values(#taskId#,#keepDays#,#Days#,#UseDays#,#PackageName#,#IMEI#,#AndroidID#,#GsfId#,#AdId#,#Mac#,#SSID#,#BSSID#,#Ip#,#Line1Number#,#CountryIso#,#Operator#,#OperatorName#
+ 	 ,#SimSerialNumber#,#SubscriberId#,#NetWorkType#,#BOARD#,#BOOTLOADER#,#BRAND#,#CPU_ABI#,#CPU_ABI2#,#DEVICE#,#DISPLAY#,#FINGERPRINT#,#HARDWARE#,#HOST#,#ID#,#MANUFACTURER#,#MODEL#,#PRODUCT#,
+ 	 #RADIO#,#SERIAL#,#TAGS#,#TIME#,#TYPE#,#USER#,#CODENAME#,#INCREMENTAL#,#RELEASE#,#SDK_INT#,#SDK#,#Height#,#Width#,#Density#,#ScaleDensity#,#DensityDPI#,#Xdpi#,#Ydpi#,#UA#,#BaseBand#,
+ 	 #OSVersion#,#PROCVersion#,#CPUINFO#,#Lat#,#Lon#,#Alt#,#Cid#,#Lac#,#registerPhone#)
+  </insert>
+
+	<select id="keepByServer" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="com.tiancheng.mobilefront.bean.PhoneInfo">
+			select k.* from keep k,task t where t.id_=k.taskId and k.Days=#day# and t.id_=#id# and k.KeepDays !=#keepDays# LIMIT 0,1
+	</select>
+
+	<select id="getKeepsByTaskId" parameterClass="com.tiancheng.mobilefront.bean.BaseBean"  resultClass="com.tiancheng.mobilefront.bean.TaskInfo">
+			SELECT count(1) as keep1 ,max(Days) as keep2 ,min(Days)  as keep3 from keep where taskId=#id#
+	</select>
+	
+	<select id="queryAndroidInfosByTaskId" parameterClass="string" resultClass="com.tiancheng.mobilefront.bean.PhoneInfo">
+		select pdm.mac as Mac,pdm.imei as IMEI,pdm.model as MODEL,pdm.imsi as SubscriberId,pdm.simsn as SimSerialNumber,pdm.appversion as OSVersion ,pdm.sdkint as SDK_INT from pa_daemon_model pdm ,task t where (t.pdmId+1) =pdm.id and t.id_=#taskId# 
+	</select>
+	
+	<select id="queryInfosById" parameterClass="string" resultClass="com.tiancheng.mobilefront.bean.InfoS">
+		select * from infos where id_=#id_# 
+	</select>
+	
+	<select id="selectMinPDModel" resultClass="int">
+		select min(id) from pa_daemon_model
+	</select>
+
+</sqlMap>

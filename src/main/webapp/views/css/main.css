@@ -1,0 +1,257 @@
+* {
+	font-size: 14px;
+}
+
+html,body {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: Arial, Helvetica, "Nimbus Sans L", sans-serif;
+	background: #fafafa;
+	text-align: center;
+}
+
+h3 {
+	font-size: 20px;
+	font-weight: bold;
+	margin: 12px 0;
+}
+
+h4 {
+	font-size: 16px;
+	font-weight: bold;
+	color: #CC0000;
+	margin: 10px 0;
+}
+
+h5 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #990000;
+	margin: 5px 0;
+}
+
+#header {
+	text-align: center;
+	background: #666;
+	direction: ltr;
+}
+
+#header-inner {
+	text-align: left;
+	margin: 0 auto;
+	width: 960px;
+	padding: 10px 0;
+}
+
+#mainwrap {
+	text-align: center;
+	margin-top: 5px;
+}
+
+#content {
+	text-align: left;
+	width: 960px;
+	margin: 0 auto;
+	padding: 10px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	background: #fff;
+}
+
+#content img {
+	margin-left: 9px;
+}
+
+#footer {
+	text-align: center;
+	padding: 10px;
+}
+
+#topmenu {
+	text-align: right;
+}
+
+#topmenu a {
+	display: inline-block;
+	padding: 1px 3px;
+	text-decoration: none;
+	color: #fff;
+}
+
+#topmenu a:hover {
+	text-decoration: underline;
+}
+
+a.download-link {
+	color: #0000ff;
+}
+
+.doc-table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	margin-left: 9px;
+}
+
+.doc-table th,.doc-table td {
+	border: 1px solid #8CACBB;
+	padding: 0.3em 0.7em;
+}
+
+.doc-table th {
+	background: #eee;
+}
+
+.doc-table pre {
+	font-family: Verdana;
+	font-size: 12px;
+	color: #006600;
+	background: #fafafa;
+	padding: 5px;
+}
+
+.icon-diaodanchaxun {
+	background: url('../img/diaodanchaxun.png') no-repeat;
+}
+
+.icon-diaodanchuli {
+	background: url('../img/diaodanchuli.png') no-repeat;
+}
+
+.icon-diaodanshenhe {
+	background: url('../img/diaodanshenhe.png') no-repeat;
+}
+
+.icon-diaodanwancheng {
+	background: url('../img/diaodanwancheng.png') no-repeat;
+}
+
+.icon-faqidiaodan {
+	background: url('../img/faqidiaodan.png') no-repeat;
+}
+
+.icon-fengkongguanli {
+	background: url('../img/fengkongguanli.png') no-repeat;
+}
+
+.icon-fengkongguize {
+	background: url('../img/fengkongguize.png') no-repeat;
+}
+
+.icon-fenshi {
+	background: url('../img/fenshi.png') no-repeat;
+}
+
+.icon-jiaoyiguanli {
+	background: url('../img/jiaoyiguanli.png') no-repeat;
+}
+
+.icon-jiaoyizhuangtai {
+	background: url('../img/jiaoyizhuangtai.png') no-repeat;
+}
+
+.icon-jijuchaxun {
+	background: url('../img/jijuchaxun.png') no-repeat;
+}
+
+.icon-jijufenpei {
+	background: url('../img/jijufenpei.png') no-repeat;
+}
+
+.icon-jijuguanli {
+	background: url('../img/jijuguanli.png') no-repeat;
+}
+
+.icon-jijuhuidiao {
+	background: url('../img/jijuhuidiao.png') no-repeat;
+}
+
+.icon-jueseliebiao {
+	background: url('../img/jueseliebiao.png') no-repeat;
+}
+
+.icon-kucunguanli {
+	background: url('../img/kucunguanli.png') no-repeat;
+}
+
+.icon-miyaoxiazai {
+	background: url('../img/miyaoxiazai.png') no-repeat;
+}
+
+.icon-qiangoudanchaxun {
+	background: url('../img/qiangoudanchaxun.png') no-repeat;
+}
+
+.icon-qiangoudanguanli {
+	background: url('../img/qiangoudanguanli.png') no-repeat;
+}
+
+.icon-quanxianguanli {
+	background: url('../img/quanxianguanli.png') no-repeat;
+}
+
+.icon-qudaoguanli {
+	background: url('../img/qudaoguanli.png') no-repeat;
+}
+
+.icon-qudaojiaoyitongji {
+	background: url('../img/qudaojiaoyitongji.png') no-repeat;
+}
+
+.icon-riqitongji {
+	background: url('../img/riqitongji.png') no-repeat;
+}
+
+.icon-shanghugaowei {
+	background: url('../img/shanghugaowei.png') no-repeat;
+}
+
+.icon-shanghuguanli {
+	background: url('../img/shanghuguanli.png') no-repeat;
+}
+
+.icon-shanghuheimingdan {
+	background: url('../img/shanghuheimingdan.png') no-repeat;
+}
+
+.icon-shanghushenhe {
+	background: url('../img/shanghushenhe.png') no-repeat;
+}
+
+.icon-shoudanmingxi {
+	background: url('../img/shoudanmingxi.png') no-repeat;
+}
+
+.icon-shouye {
+	background: url('../img/shouye.png') no-repeat;
+}
+
+.icon-tongjibaobiao {
+	background: url('../img/tongjibaobiao.png') no-repeat;
+}
+
+.icon-xiajijingli {
+	background: url('../img/xiajijingli.png') no-repeat;
+}
+
+.icon-yinhangkaleixing {
+	background: url('../img/yinhangkaleixing.png') no-repeat;
+}
+
+.icon-yinhangzhanbi {
+	background: url('../img/yinhangzhanbi.png') no-repeat;
+}
+
+.icon-zhanghuguanli {
+	background: url('../img/zhanghuguanli.png') no-repeat;
+}
+
+.icon-zhongduanguanli {
+	background: url('../img/zhongduanguanli.png') no-repeat;
+}
+
+.icon-ziliaoxiazai {
+	background: url('../img/ziliaoxiazai.png') no-repeat;
+}
